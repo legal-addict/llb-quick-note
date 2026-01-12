@@ -1,0 +1,27 @@
+header{
+      text-align: center;
+      font-size: 60px;
+      background-image: url(photo/legal\ addict.jpg) ;
+      background-position: left top;
+      background-size: 90px;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    h4{
+      text-align: center;
+    }
+    body{
+      background-color: #cfeeee ;
+    }
+     #A{
+    padding: 10px 20px;
+    border: 2px solid gray;
+    background-color: #b3f0e6;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    gap: 20px;
+    margin-left: 190px;
+    margin-top:20px;
+  }
+  
