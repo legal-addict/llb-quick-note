@@ -3,7 +3,7 @@
       text-align: center;
       font-size: 60px;
       background-image: url(legal\ addict.jpg) ;
-      background-position: left top;
+      background-position: left 50PXtop;
       background-size: 110px;
       background-repeat: no-repeat;
       background-attachment: fixed;
@@ -59,4 +59,5 @@
     margin-top:10px;
   }
   }
+
  
