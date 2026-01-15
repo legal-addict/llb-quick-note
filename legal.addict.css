@@ -14,11 +14,6 @@ body {
             font-size: 40px;
             margin-bottom: 10px;
             font-weight: bold;
-           background-image: url(legal\ addict.jpg) ;
-            background-position: left top;
-            background-size: 110px;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
         }
         
         h2 {
@@ -77,4 +72,5 @@ body {
             font-style: italic;
         }
          
+
         }
