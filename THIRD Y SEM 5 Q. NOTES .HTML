@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LLB Curriculum Overview </title>
   <link rel="stylesheet" href="legal.addict.css">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 </head>
 <style>
   body {
@@ -75,10 +77,32 @@
   <p class="b">
     Quick notes  for LL.B. (1 year) Sem I and BLS LL.B. (3year) sem v
   </p>
-  <a  href="LABOUR LAW AND INDUSTRIAL RELATIONS- I.html"><button  id="A"> LABOUR LAW AND INDUSTRIAL RELATIONS- I </button></a><br>
+  <a  href="LABOUR LAW AND INDUSTRIAL RELATIONS- I.html"><button onclick="buyNote('Sociology Quick Notes', 99, 'sociology.html')"  id="A"> LABOUR LAW AND INDUSTRIAL RELATIONS- I </button></a><br>
   <a  href="LAW OF TORTS, MOTOR ACCIDENT CLAIMS AND CONSUMER PROTECTION .html"><button id="A">  LAW OF TORTS, MOTOR ACCIDENT CLAIMS AND CONSUMER PROTECTION </button></a><br>
   <a  href="LAW OF CONTRACT AND SPECIFIC RELIEF.html"><button  id="A">  LAW OF CONTRACT AND SPECIFIC RELIEF   </button></a><br>
   <a  href="LEGAL LANGUAGE.HTML"><button id="A">  LEGAL LANGUAGE </button></a><br>
   <a  href="Practical Training - I Professional Ethics and Professional Accounting System.html"><button id="A">Practical Training - I Professional Ethics and Professional Accounting System.html  </button></a><br>
+
+<script>
+function buyNote(noteName, amount, fileName) {
+  var options = {
+    "key": "rzp_test_S5B4eUwWKGBKT",  // Replace with your actual Key ID
+    "amount": amount * 100,          // amount in paise
+    "currency": "INR",
+    "name": "LEGAL ADDICT",
+    "description": noteName,
+    "handler": function (response) {
+      window.location.href = fileName;
+    },
+    "theme": {
+      "color": "#2c7be5"
+    }
+  };
+  var rzp = new Razorpay(options);
+  rzp.open();
+}
+</script>
+
 </body>
+
 </html>
