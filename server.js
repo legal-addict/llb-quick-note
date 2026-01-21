@@ -10,8 +10,8 @@ app.use(cors());
 app.use(express.json());
 
 const razorpay = new Razorpay({
-  key_id: process.env.KEY_ID,
-  key_secret: process.env.KEY_SECRET
+  key_id: rzp_live_S5B4eUZwWKGBKT,
+  key_secret: Eyb517sgZRLx8cqwwaNPFtXJ
 });
 
 app.post('/create-order', async (req, res) => {
@@ -42,3 +42,4 @@ app.post('/create-order', async (req, res) => {
 app.listen(5000, () => {
   console.log("✅ Backend running on http://localhost:5000");
 });
+
