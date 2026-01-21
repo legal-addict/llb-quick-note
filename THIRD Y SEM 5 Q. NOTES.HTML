@@ -6,6 +6,7 @@
   <title>LLB Curriculum Overview </title>
   <link rel="stylesheet" href="legal.addict.css">
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 </head>
 <style>
   body {
@@ -76,34 +77,54 @@
   <p class="b">
     Quick notes  for LL.B. (1 year) Sem I and BLS LL.B. (3year) sem v
   </p>
-  <a  href="LABOUR LAW AND INDUSTRIAL RELATIONS- I.html"><button onclick="buyNote('Sociology Quick Notes', 99, 'sociology.html')"id="A"> LABOUR LAW AND INDUSTRIAL RELATIONS- I </button></a><br>
+  <a  href="LABOUR LAW AND INDUSTRIAL RELATIONS- I.html"><button onclick="buyNote('labour Quick Notes', 99, 'LABOUR LAW AND INDUSTRIAL RELATIONS- I.html')"id="A"> LABOUR LAW AND INDUSTRIAL RELATIONS- I </button></a><br>
   <a  href="LAW OF TORTS, MOTOR ACCIDENT CLAIMS AND CONSUMER PROTECTION .html"><button id="A">  LAW OF TORTS, MOTOR ACCIDENT CLAIMS AND CONSUMER PROTECTION </button></a><br>
   <a  href="LAW OF CONTRACT AND SPECIFIC RELIEF.html"><button  id="A">  LAW OF CONTRACT AND SPECIFIC RELIEF   </button></a><br>
   <a  href="LEGAL LANGUAGE.HTML"><button id="A">  LEGAL LANGUAGE </button></a><br>
   <a  href="Practical Training - I Professional Ethics and Professional Accounting System.html"><button id="A">Practical Training - I Professional Ethics and Professional Accounting System.html  </button></a><br>
 
-<script>
-function buyNote(noteName, amount, fileName) {
-  var options = {
-    "key": "rzp_live_S5B4eUwWKGBKT",  // Replace with your actual Key ID
-    "amount": amount * 100,          // amount in paise
-    "currency": "INR",
-    "name": "LEGAL ADDICT",
-    "description": noteName,
-    "handler": function (response) {
-      window.location.href = fileName;
-    },
-    "theme": {
-      "color": "#2c7be5"
+  <script>
+    async function buyNote(noteName, amount, fileName) {
+      try {
+        // 1️⃣ Call backend to create order
+        const response = await fetch('http://localhost:5000/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: amount * 100 }) // convert to paise
+        });
+
+        const orderData = await response.json();
+
+        // 2️⃣ Initialize Razorpay checkout
+        var options = {
+          key: orderData.key,           // Key ID from backend
+          amount: orderData.amount,
+          currency: orderData.currency,
+          name: "LEGAL ADDICT",
+          description: noteName,
+          order_id: orderData.id,       // Must use the order ID from backend
+          handler: function (response) {
+            // Redirect to file after successful payment
+            window.location.href = fileName;
+          },
+          theme: {
+            color: "#2c7be5"
+          }
+        };
+
+        var rzp = new Razorpay(options);
+        rzp.open();
+
+      } catch (err) {
+        console.error(err);
+        alert("Payment failed! Check console for details.");
+      }
     }
-  };
-  var rzp = new Razorpay(options);
-  rzp.open();
-}
-</script>
+  </script>
 
 </body>
 
 </html>
+
 
 
