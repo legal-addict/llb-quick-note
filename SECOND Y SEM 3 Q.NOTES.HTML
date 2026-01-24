@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LLB Curriculum Overview</title>
+  <link rel="stylesheet" href="legal addict.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+  <header>UNIVERSITY OF MUMBAI SYLLABUS (WITH QUICK NOTES)</header>
+
+  <p class="b">Quick notes for BLS LL.B. (1year) sem 3</p>
+
+  <!-- Buttons -->
+
+<button onclick="buyNote('Sociology Notes', 100)">
+  Buy Sociology Notes - ₹100
+</button>
+
+  <button onclick="buyNote(100)">Political Science </button>
+  <button onclick="buyNote(100)">History of Courts</button>
+
+<script>
+async function buyNote(noteName, price) {
+  console.log("Buying:", noteName, "₹", price);
+
+  try {
+    const amountInPaise = price * 100;
+
+    const res = await fetch("http://127.0.0.1:5001/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: amountInPaise })
+    });
+
+    const data = await res.json();
+
+    const options = {
+      key: "rzp_live_S5B4eUZwWKGBKT", // ✅ TEST KEY
+      amount: amountInPaise,
+      currency: "INR",
+      order_id: data.id,
+      name: "Legal Addict",
+      description: noteName,
+      handler: function (response) {
+        alert("Payment successful!");
+        console.log(response);
+        // window.location.href = "Sociology.html";
+      }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+
+  } catch (err) {
+    console.error(err);
+    alert("Payment failed! Check console.");
+  }
+}
+</script>
+</script>
+
+</body>
+</html>
+
