@@ -38,6 +38,7 @@ app.post("/create-order", async (req, res) => {
   }
 });
 app.listen(5050, () =>
-  console.log("Server running on port 5050")
+  console.log("Server running on port 5050","https://legal-addict.github.io")
 );
+
 
