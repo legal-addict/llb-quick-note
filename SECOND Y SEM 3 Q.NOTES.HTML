@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LLB Curriculum Overview</title>
+  
+<link rel="stylesheet" href="legal addict.css">
+  <!-- Razorpay -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+<header>UNIVERSITY OF MUMBAI SYLLABUS (SMART NOTE)</header>
+<p class="b">Smart notes for BLS LL.B. (1st year) Sem 3</p>
+
+<button id="A" onclick="buyNote('Sociology Notes',100)">
+  Buy Sociology Notes – ₹100
+</button>
+<button id="A" onclick="buyNote(' Political Science-II - Foundations of Political Obligation  Notes',100)">
+  Buy Political Science-II - Foundations of Political Obligation  – ₹100
+</button>
+<button id="A" onclick="buyNote(' History of Courts Notes',100)">
+  Buy  History of Courts Notes – ₹100
+</button>
+
+<script>
+async function buyNote(noteName, price) {
+  try {
+    const res = await fetch("http://127.0.0.1:5050/create-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        amount: price * 100 // ₹ → paise
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error("Order API failed");
+    }
+
+    const order = await res.json();
+
+    const options = {
+      key: "rzp_test_S7yra6spfeeO7h", // 🔑 SAME TEST KEY
+      amount: order.amount,
+      currency: "INR",
+      order_id: order.id,
+      name: "Legal Addict",
+      description: noteName,
+      handler: function (response) {
+        alert("Payment successful!");
+        console.log(response);
+      }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+
+  } catch (err) {
+    console.error(err);
+    alert("Payment failed. Check console.");
+  }
+}
+</script>
+
+</body>
+</html>
