@@ -12,7 +12,7 @@ app.use(cors({
 app.use(express.json());
 
 // VERY IMPORTANT
-app.options("*", cors());
+app.options("https://legal-addict.github.io", cors());
 
 const razorpay = new Razorpay({
   key_id: "rzp_test_S7yra6spfeeO7h",
