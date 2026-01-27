@@ -4,7 +4,7 @@ import cors from "cors";
 const app = express();
 
 app.use(cors({
-  origin: "*", // for development
+  origin: "https://legal-addict.github.io", // for development
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
