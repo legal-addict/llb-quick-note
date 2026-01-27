@@ -1,0 +1,36 @@
+import express from "express";
+import cors from "cors";
+
+const app = express();
+
+app.use(cors({
+  origin: "*", // for development
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+app.use(express.json());
+
+// VERY IMPORTANT
+app.options("*", cors());
+
+const razorpay = new Razorpay({
+  key_id: "rzp_test_S7yra6spfeeO7h",
+      key_secret: "v7CFWcdMu8ndbcsMCY6PHvuN" // 🔒 NEVER expose this in frontend
+});
+app.post("/create-order", async (req, res) => {
+  try {
+    const order = await razorpay.orders.create({
+      amount: req.body.amount,
+      currency: "INR"
+    });
+
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.listen(5050, () =>
+  console.log("Server running on port 5050")
+);
