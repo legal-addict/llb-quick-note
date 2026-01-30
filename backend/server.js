@@ -1,41 +1,48 @@
 import express from "express";
 import cors from "cors";
+import Razorpay from "razorpay"; // Don't forget this import!
 
 const app = express();
 
+// Enable CORS for your frontend
 app.use(cors({
-  origin: "https://legal-addict.github.io", // for development
+  origin: "https://legal-addict.github.io",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
 
-// VERY IMPORTANT
+// Pre-flight OPTIONS request for your frontend domain
 app.options("https://legal-addict.github.io", cors());
 
+// Initialize Razorpay instance
 const razorpay = new Razorpay({
   key_id: "rzp_test_S7yra6spfeeO7h",
-      key_secret: "v7CFWcdMu8ndbcsMCY6PHvuN" // 🔒 NEVER expose this in frontend
+  key_secret: "v7CFWcdMu8ndbcsMCY6PHvuN"
 });
+
+// Route to create order
 app.post("/create-order", async (req, res) => {
-  res.json({
-    id: "test_order",
-    amount: req.body.amount
-  });
-});
-
-    res.json(order);
   try {
-  // code here
-} catch (err) {
-  console.error(err);
-}
+    const options = {
+      amount: req.body.amount, // amount in paise
+      currency: "INR"
+    };
 
+    // Create Razorpay order
+    const order = await razorpay.orders.create(options);
+
+    // Send order details to frontend
+    res.json(order);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
 
-app.listen(5050, () =>
-  console.log("Server running on port 5050")
-);
+// Start server
+const PORT = process.env.PORT || 5050;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
