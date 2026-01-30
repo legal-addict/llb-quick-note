@@ -19,11 +19,11 @@ const razorpay = new Razorpay({
       key_secret: "v7CFWcdMu8ndbcsMCY6PHvuN" // 🔒 NEVER expose this in frontend
 });
 app.post("/create-order", async (req, res) => {
-  try {
-    const order = await razorpay.orders.create({
-      amount: req.body.amount,
-      currency: "INR"
-    });
+  res.json({
+    id: "test_order",
+    amount: req.body.amount
+  });
+});
 
     res.json(order);
   } catch (err) {
