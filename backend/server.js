@@ -18,8 +18,8 @@ app.options("https://legal-addict.github.io", cors());
 
 // Initialize Razorpay instance
 const razorpay = new Razorpay({
-  key_id: "rzp_test_S7yra6spfeeO7h",
-  key_secret: "v7CFWcdMu8ndbcsMCY6PHvuN"
+  key_id: process.gitignore.RAZORPAY_KEY_ID,
+  key_secret: process.gitignore.RAZORPAY_SECRET
 });
 
 // Route to create order
