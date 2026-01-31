@@ -21,10 +21,11 @@
 <button id="A" onclick="buyNote(' History of Courts Notes',100)">
   Buy  History of Courts Notes – ₹100
 </button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 async function buyNote(noteName, price) {
   try {
-    const res = await fetch("fetch("https://legaladdict.onrender.com/create-order", {
+    const res = await fetch("https://legaladdict.onrender.com/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -62,11 +63,9 @@ async function buyNote(noteName, price) {
   }
 }
 </script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-
 </body>
 </html>
+
 
 
 
