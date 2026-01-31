@@ -1,3 +1,4 @@
+import "dotenv/config"; // loads .env locally
 import express from "express";
 import cors from "cors";
 import Razorpay from "razorpay"; // Don't forget this import!
