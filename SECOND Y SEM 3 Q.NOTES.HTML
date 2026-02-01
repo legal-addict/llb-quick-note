@@ -2,56 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LLB Curriculum Overview</title>
-  
-<link rel="stylesheet" href="legal addict.css">
-  <!-- Razorpay -->
-  
+  <link rel="stylesheet" href="legal addict.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-<header>UNIVERSITY OF MUMBAI SYLLABUS (SMART NOTE)</header>
-<p class="b">Smart notes for BLS LL.B. (1st year) Sem 3</p>
+  <header>
+    UNIVERSITY OF MUMBAI SYLLABUS (SMART NOTE)
+  </header>
 
-<button id="A" onclick="buyNote('Sociology Notes',100)">
-  Buy Sociology Notes – ₹100
-</button>
-<button id="A" onclick="buyNote(' Political Science-II - Foundations of Political Obligation  Notes',100)">
-  Buy Political Science-II - Foundations of Political Obligation  – ₹100
-</button>
-<button id="A" onclick="buyNote(' History of Courts Notes',100)">
-  Buy  History of Courts Notes – ₹100
-</button>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <p class="b">
+    Quick notes for LL.B. (1 year) Sem I and BLS LL.B. (3 year) Sem V
+  </p>
+
+  <!-- Buttons for Notes -->
+  <button onclick="buyNote('LABOUR LAW AND INDUSTRIAL RELATIONS- I', 100)">LABOUR LAW AND INDUSTRIAL RELATIONS- I</button><br>
+  <button onclick="buyNote('LAW OF TORTS, MOTOR ACCIDENT CLAIMS AND CONSUMER PROTECTION', 150)">LAW OF TORTS, MOTOR ACCIDENT CLAIMS AND CONSUMER PROTECTION</button><br>
+  <button onclick="buyNote('LAW OF CONTRACT AND SPECIFIC RELIEF', 120)">LAW OF CONTRACT AND SPECIFIC RELIEF</button><br>
+  <button onclick="buyNote('LEGAL LANGUAGE', 80)">LEGAL LANGUAGE</button><br>
+  <button onclick="buyNote('Practical Training - I Professional Ethics and Professional Accounting System', 100)">
+    Practical Training - I Professional Ethics and Professional Accounting System
+  </button><br>
+
 <script>
 async function buyNote(noteName, price) {
   try {
-    const res = await fetch("https://legaladdict.onrender.com/create-order", {
+    const username = prompt("Enter your name for watermark") || "User";
+
+    // Create order
+    const res = await fetch("http://127.0.0.1:5050/create-order", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        amount: price * 100 // ₹ → paise
-      })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: price * 100 })
     });
 
-    if (!res.ok) {
-      throw new Error("Order API failed");
-    }
-
+    if (!res.ok) throw new Error("Order creation failed");
     const order = await res.json();
 
+    // Razorpay checkout
     const options = {
-      key: "rzp_test_S7yra6spfeeO7h", // 🔑 SAME TEST KEY
+      key: "rzp_test_S7yra6spfeeO7h",
       amount: order.amount,
       currency: "INR",
       order_id: order.id,
       name: "Legal Addict",
       description: noteName,
-      handler: function (response) {
-        alert("Payment successful!");
-        console.log(response);
-      }
+      handler: async function(response) {
+        const verifyRes = await fetch("http://127.0.0.1:5050/verify-payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            username,
+            noteName
+          })
+        });
+
+        const verifyData = await verifyRes.json();
+        if (verifyData.success) {
+          window.location.href = verifyData.url; // Auto-open note
+        } else {
+          alert("Payment verification failed!");
+        }
+      },
+      theme: { color: "#3399cc" }
     };
 
     const rzp = new Razorpay(options);
@@ -63,11 +80,6 @@ async function buyNote(noteName, price) {
   }
 }
 </script>
+
 </body>
 </html>
-
-
-
-
-
-
