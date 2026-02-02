@@ -31,7 +31,7 @@ async function buyNote(noteName, price) {
     const username = prompt("Enter your name for watermark") || "User";
 
     // Create order
-    const res = await fetch("https://backend-kxr2.onrender.com", {
+    const res = await fetch("https://backend-kxr2.onrender.com/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: price * 100 })
@@ -83,5 +83,6 @@ async function buyNote(noteName, price) {
 
 </body>
 </html>
+
 
 
