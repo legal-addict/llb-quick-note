@@ -49,7 +49,7 @@ async function buyNote(noteName, price) {
       name: "Legal Addict",
       description: noteName,
       handler: async function(response) {
-        const verifyRes = await fetch("http://127.0.0.1:5050/verify-payment", {
+        const verifyRes = await fetch("https://backend-kxr2.onrender.com/verify-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -83,6 +83,7 @@ async function buyNote(noteName, price) {
 
 </body>
 </html>
+
 
 
 
