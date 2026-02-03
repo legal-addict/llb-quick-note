@@ -24,14 +24,14 @@
   <button onclick="buyNote('Practical Training - I Professional Ethics and Professional Accounting System', 100)">
     Practical Training - I Professional Ethics and Professional Accounting System
   </button><br>
-
 <script>
+const API_URL = "https://backend-kxr2.onrender.com";
+
 async function buyNote(noteName, price) {
   try {
     const username = prompt("Enter your name for watermark") || "User";
 
-    // Create order
-    const res = await fetch("https://backend-kxr2.onrender.com/create-order", {
+    const res = await fetch(`${API_URL}/create-order`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: price * 100 })
@@ -40,7 +40,6 @@ async function buyNote(noteName, price) {
     if (!res.ok) throw new Error("Order creation failed");
     const order = await res.json();
 
-    // Razorpay checkout
     const options = {
       key: "rzp_test_S7yra6spfeeO7h",
       amount: order.amount,
@@ -48,8 +47,9 @@ async function buyNote(noteName, price) {
       order_id: order.id,
       name: "Legal Addict",
       description: noteName,
-      handler: async function(response) {
-        const verifyRes = await fetch("https://backend-kxr2.onrender.com/verify-payment", {
+
+      handler: async function (response) {
+        const verifyRes = await fetch(`${API_URL}/verify-payment`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -61,30 +61,30 @@ async function buyNote(noteName, price) {
           })
         });
 
-        const verifyData = await verifyRes.json();
-        if (verifyData.success) {
-          window.location.href = verifyData.url; // Auto-open note
+        if (!verifyRes.ok) throw new Error("Verification failed");
+
+        const data = await verifyRes.json();
+        if (data.success) {
+          window.location.href = data.url;
         } else {
-          alert("Payment verification failed!");
+          alert("Payment verification failed");
         }
       },
+
+      modal: {
+        ondismiss: function () {
+          alert("Payment cancelled");
+        }
+      },
+
       theme: { color: "#3399cc" }
     };
 
-    const rzp = new Razorpay(options);
-    rzp.open();
+    new Razorpay(options).open();
 
   } catch (err) {
     console.error(err);
-    alert("Payment failed. Check console.");
+    alert("Payment failed. Try again.");
   }
 }
 </script>
-
-</body>
-</html>
-
-
-
-
-
