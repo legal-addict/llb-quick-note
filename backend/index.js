@@ -8,15 +8,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Razorpay instance (KEYS ONLY HERE)
+// 🔐 Razorpay keys from Render ENV
+if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+  console.error("❌ Razorpay keys missing");
+}
+
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// Test route
+// Health check
 app.get("/", (req, res) => {
-  res.send("Backend running");
+  res.send("Backend running ✅");
 });
 
 // CREATE ORDER
@@ -24,13 +28,17 @@ app.post("/create-order", async (req, res) => {
   try {
     const { amount } = req.body;
 
+    if (!amount) {
+      return res.status(400).json({ error: "Amount required" });
+    }
+
     const order = await razorpay.orders.create({
       amount,
       currency: "INR",
     });
 
     res.json({
-      key: process.env.RAZORPAY_KEY_ID, // send key safely
+      key: process.env.RAZORPAY_KEY_ID,
       order,
     });
   } catch (err) {
@@ -46,7 +54,6 @@ app.post("/verify-payment", (req, res) => {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-      username,
       noteName,
     } = req.body;
 
@@ -58,20 +65,20 @@ app.post("/verify-payment", (req, res) => {
       .digest("hex");
 
     if (expectedSignature === razorpay_signature) {
-      // SUCCESS → redirect to PDF or note
       res.json({
         success: true,
-        url: `https://your-site.com/notes/${noteName}.pdf`,
+        url: `https://your-site.com/notes/${encodeURIComponent(noteName)}.pdf`,
       });
     } else {
       res.status(400).json({ success: false });
     }
   } catch (err) {
+    console.error(err);
     res.status(500).json({ success: false });
   }
 });
 
-// REQUIRED FOR RENDER
+// 🔑 REQUIRED FOR RENDER
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
