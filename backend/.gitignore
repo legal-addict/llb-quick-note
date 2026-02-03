@@ -1,3 +1,6 @@
+.env
+node_modules/
+
 # Dependencies
 node_modules/
 
@@ -43,5 +46,6 @@ coverage/
 
 # Optional: Render / cloud metadata
 .render/
+
 
 
