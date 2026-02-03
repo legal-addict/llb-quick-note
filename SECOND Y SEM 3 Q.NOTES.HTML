@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LLB Curriculum Overview</title>
-  <link rel="stylesheet" href="legal addict.css">
+  <link rel="stylesheet" href="legal_addict.css">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
@@ -29,7 +29,7 @@ const API_URL = "https://backend-kxr2.onrender.com";
 
 async function buyNote(noteName, price) {
   try {
-    const username = prompt("Enter your name for watermark") || "User";
+    const username = prompt("Enter your name") || "User";
 
     const res = await fetch(`${API_URL}/create-order`, {
       method: "POST",
@@ -37,14 +37,13 @@ async function buyNote(noteName, price) {
       body: JSON.stringify({ amount: price * 100 })
     });
 
-    if (!res.ok) throw new Error("Order creation failed");
-    const order = await res.json();
+    const data = await res.json();
 
     const options = {
-      key: "rzp_test_S7yra6spfeeO7h",
-      amount: order.amount,
+      key: data.key, // key from backend
+      amount: data.order.amount,
       currency: "INR",
-      order_id: order.id,
+      order_id: data.order.id,
       name: "Legal Addict",
       description: noteName,
 
@@ -61,30 +60,25 @@ async function buyNote(noteName, price) {
           })
         });
 
-        if (!verifyRes.ok) throw new Error("Verification failed");
-
-        const data = await verifyRes.json();
-        if (data.success) {
-          window.location.href = data.url;
+        const result = await verifyRes.json();
+        if (result.success) {
+          window.location.href = result.url;
         } else {
           alert("Payment verification failed");
         }
       },
 
       modal: {
-        ondismiss: function () {
-          alert("Payment cancelled");
-        }
-      },
-
-      theme: { color: "#3399cc" }
+        ondismiss: () => alert("Payment cancelled")
+      }
     };
 
     new Razorpay(options).open();
-
   } catch (err) {
     console.error(err);
-    alert("Payment failed. Try again.");
+    alert("Payment failed");
   }
 }
 </script>
+</body>
+</html>
