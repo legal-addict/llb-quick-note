@@ -23,84 +23,41 @@
   <button onclick="buyNote('LEGAL LANGUAGE',15)">LEGAL LANGUAGE</button><br>
   <button onclick="buyNote('Practical Training - I Professional Ethics and Professional Accounting System', 100)">
     Practical Training - I Professional Ethics and Professional Accounting System
-  </button><br>
- <script>
-import express from "express";
-import Razorpay from "razorpay";
-import cors from "cors";
-import bodyParser from "body-parser";
-import crypto from "crypto";
-import dotenv from "dotenv";
+  </button><br><script>
+async function buyNote(noteName, price) {
+  const res = await fetch("https://llb-quick-note-1.onrender.com/create-order", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount: price * 100 })
+  });
 
-dotenv.config(); // only for local development
+  const data = await res.json();
 
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
-
-// Razorpay instance using env variables
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,       // public key
-  key_secret: process.env.RAZORPAY_KEY_SECRET // secret key
-});
-
-// Health check
-app.get("/", (req, res) => {
-  res.send("Backend is running!");
-});
-
-// Create order
-app.post("/create-order", async (req, res) => {
-  try {
-    const { amount } = req.body;
-
-    const options = {
-      amount: amount, // in paise
-      currency: "INR"
-    };
-
-    const order = await razorpay.orders.create(options);
-
-    res.json({
-      key: process.env.RAZORPAY_KEY_ID, // send only public key
-      order
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Order creation failed" });
-  }
-});
-
-// Verify payment
-app.post("/verify-payment", (req, res) => {
-  try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, username, noteName } = req.body;
-
-    const body = razorpay_order_id + "|" + razorpay_payment_id;
-    const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(body.toString())
-      .digest("hex");
-
-    if (expectedSignature === razorpay_signature) {
-      // Payment verified, redirect to a success URL
-      res.json({
-        success: true,
-        url: `https://yourfrontend.com/success.html?note=${encodeURIComponent(noteName)}&user=${encodeURIComponent(username)}`
+  const options = {
+    key: data.key,
+    amount: price * 100,
+    currency: "INR",
+    name: "Smart Notes",
+    description: noteName,
+    order_id: data.order.id,
+    handler: function (response) {
+      fetch("https://llb-quick-note-1.onrender.com/verify-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...response,
+          noteName
+        })
       });
-    } else {
-      res.json({ success: false });
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false });
-  }
-});
+  };
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  new Razorpay(options).open();
+}
 </script>
+
 </body>
 </html>
+
 
 
