@@ -48,7 +48,7 @@ async function buyNote(noteName, price) {
       description: noteName,
 
       handler: async function (response) {
-        const verifyRes = await fetch(`${API_URL}/verify-payment`, {
+        const verifyRes = await fetch(`${API_URL}https://backend-kxr2.onrender.com/verify-payment`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -82,3 +82,4 @@ async function buyNote(noteName, price) {
 </script>
 </body>
 </html>
+
