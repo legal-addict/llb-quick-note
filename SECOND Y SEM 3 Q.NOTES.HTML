@@ -23,8 +23,9 @@
   <button onclick="buyNote('LEGAL LANGUAGE',15)">LEGAL LANGUAGE</button><br>
   <button onclick="buyNote('Practical Training - I Professional Ethics and Professional Accounting System', 100)">
     Practical Training - I Professional Ethics and Professional Accounting System
-  </button><br><script>
-async function buyNote(noteName, price) {
+  </button><br>
+<script>
+window.buyNote = async function(noteName, price) {
   const res = await fetch("https://llb-quick-note-1.onrender.com/create-order", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -53,11 +54,12 @@ async function buyNote(noteName, price) {
   };
 
   new Razorpay(options).open();
-}
+};
 </script>
 
 </body>
 </html>
+
 
 
 
