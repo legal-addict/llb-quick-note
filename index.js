@@ -83,7 +83,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
 });
-crypto
-  .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-  .update(order_id + "|" + payment_id)
-  .digest("hex");
