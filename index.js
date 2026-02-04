@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
+
 import express from "express";
 import Razorpay from "razorpay";
 import crypto from "crypto";
@@ -10,7 +11,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔐 Razorpay keys from Render ENV
 if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
   console.error("❌ Razorpay keys missing");
 }
@@ -20,7 +20,7 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// Health check
+// health check
 app.get("/", (req, res) => {
   res.send("Backend running ✅");
 });
@@ -69,7 +69,7 @@ app.post("/verify-payment", (req, res) => {
     if (expectedSignature === razorpay_signature) {
       res.json({
         success: true,
-        url: `https://LABOUR LAW AND INDUSTRIAL RELATIONS- I.com/notes/${encodeURIComponent(noteName)}.pdf`,
+        url: `/notes/${encodeURIComponent(noteName)}.pdf`,
       });
     } else {
       res.status(400).json({ success: false });
@@ -80,7 +80,6 @@ app.post("/verify-payment", (req, res) => {
   }
 });
 
-// 🔑 REQUIRED FOR RENDER
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
