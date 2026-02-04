@@ -67,7 +67,7 @@ app.post("/verify-payment", (req, res) => {
     if (expectedSignature === razorpay_signature) {
       res.json({
         success: true,
-        url: `https://your-site.com/notes/${encodeURIComponent(noteName)}.pdf`,
+        url: `https://LABOUR LAW AND INDUSTRIAL RELATIONS- I.com/notes/${encodeURIComponent(noteName)}.pdf`,
       });
     } else {
       res.status(400).json({ success: false });
