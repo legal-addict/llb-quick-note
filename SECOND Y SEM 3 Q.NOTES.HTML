@@ -48,7 +48,7 @@ async function buyNote(noteName, price) {
       description: noteName,
 
       handler: async function (response) {
-        const verifyRes = await fetch(`${API_URL}https://llb-quick-note-1.onrender.com/verify-payment`, {
+        const verifyRes = await fetch(`${API_URL}/verify-payment`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -75,12 +75,14 @@ async function buyNote(noteName, price) {
 
     new Razorpay(options).open();
   } catch (err) {
+ console.error(err);
     alert("Payment failed");
   }
 }
 </script>
 </body>
 </html>
+
 
 
 
