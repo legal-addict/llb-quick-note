@@ -8,34 +8,25 @@ import cors from "cors";
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+app.use(cors({
+  origin: [https://llb-quick-note-1.onrender.com],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+}));
 
-if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-  console.error("❌ Razorpay keys missing");
-}
+app.use(express.json());
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
-
-// health check
-app.get("/", (req, res) => {
-  res.send("Backend running ✅");
-});
-
 // CREATE ORDER
 app.post("/create-order", async (req, res) => {
   try {
-    const { amount } = req.body;
-
-    if (!amount) {
-      return res.status(400).json({ error: "Amount required" });
-    }
+console.log("REQ BODY:", req.body);
 
     const order = await razorpay.orders.create({
-      amount,
+       amount: Number(req.body.amount),
       currency: "INR",
     });
 
