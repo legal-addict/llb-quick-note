@@ -38,18 +38,17 @@ async function buyNote(noteName, price) {
       body: JSON.stringify({ amount: price * 100 })
     });
 
- if (!res.ok) throw new Error("Order creation failed");
-    const order = await res.json();
+if (!orderRes.ok) throw new Error("Order creation failed");
+const orderData = await orderRes.json();
 
     const options = {
-      key: orderData.key,
-      amount: order.amount,
-      currency: "INR",
-      order_id: order.id,
-      name: "Legal Addict",
-      description: noteName,
-
-      handler: async function (response) {
+  key: orderData.key,
+  amount: orderData.order.amount,
+  currency: "INR",
+  order_id: orderData.order.id,
+  name: "Legal Addict",
+  description: noteName,
+  handler: async function (response) {
         // verify payment
         const verifyRes = await fetch("https://llb-quick-note-1.onrender.com/verify-payment", {
           method: "POST",
@@ -87,6 +86,7 @@ const rzp = new Razorpay(options);
 </script>
 </body>
 </html>
+
 
 
 
