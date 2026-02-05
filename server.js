@@ -9,7 +9,7 @@ import cors from "cors";
 const app = express();
 
 app.use(cors({
-  origin: [https://llb-quick-note-1.onrender.com],
+  origin: "https://legal-addict.github.io",
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 }));
