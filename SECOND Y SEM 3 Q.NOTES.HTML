@@ -33,31 +33,26 @@ async function buyNote(noteName, price) {
     const username = prompt("Enter your name") || "User";
 
     // ✅ Create order
-    const orderRes = await fetch(API_URL + "/create-order", {
+    const orderRes = await fetch("https://llb-quick-note-1.onrender.com/create-order" , {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: price * 100 })
     });
 
-    const orderData = await orderRes.json();
-
-    // if Razorpay key or order is missing
-    if (!orderData.order) {
-      alert("Order creation failed");
-      return;
-    }
+ if (!res.ok) throw new Error("Order creation failed");
+    const order = await res.json();
 
     const options = {
       key: orderData.key,
-      amount: orderData.order.amount,
+      amount: order.amount,
       currency: "INR",
-      order_id: orderData.order.id,
+      order_id: order.id,
       name: "Legal Addict",
       description: noteName,
 
       handler: async function (response) {
         // verify payment
-        const verifyRes = await fetch(API_URL + "/verify-payment", {
+        const verifyRes = await fetch("https://llb-quick-note-1.onrender.com/verify-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -72,7 +67,7 @@ async function buyNote(noteName, price) {
         const verifyData = await verifyRes.json();
 
         if (verifyData.success) {
-          alert("Payment successful! You can download your note now.");
+          alert("Payment successful! You can load your note now.");
         } else {
           alert("Payment verification failed.");
         }
@@ -82,8 +77,8 @@ async function buyNote(noteName, price) {
         ondismiss: () => alert("Payment cancelled")
       }
     };
-
-    new Razorpay(options).open();
+const rzp = new Razorpay(options);
+    rzp.open();
 
   } catch (error) {
     console.error("ERROR:", error);
@@ -93,6 +88,7 @@ async function buyNote(noteName, price) {
 </script>
 </body>
 </html>
+
 
 
 
