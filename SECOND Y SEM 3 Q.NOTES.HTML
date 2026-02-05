@@ -32,7 +32,7 @@ async function buyNote(noteName, price) {
     const username = prompt("Enter your name") || "User";
 
     // ✅ Create order
-    const orderRes = await fetch("https://llb-quick-note-1.onrender.com/create-order" , {
+    const orderRes = await fetch("https://backend-kxr2.onrender.com/create-order" , {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: price * 100 })
@@ -50,7 +50,7 @@ const orderData = await orderRes.json();
   description: noteName,
   handler: async function (response) {
         // verify payment
-        const verifyRes = await fetch("https://llb-quick-note-1.onrender.com/verify-payment", {
+        const verifyRes = await fetch("https://backend-kxr2.onrender.com/verify-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -86,6 +86,7 @@ const rzp = new Razorpay(options);
 </script>
 </body>
 </html>
+
 
 
 
