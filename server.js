@@ -16,9 +16,11 @@ app.use(cors({
 
 app.use(express.json());
 
+const Razorpay = require("razorpay");
+
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
+  key_id: process.env.RAZORPAY_KEY_ID,     // must be set correctly
+  key_secret: process.env.RAZORPAY_KEY_SECRET, // must be set correctly
 });
 // CREATE ORDER
 app.post("/create-order", async (req, res) => {
