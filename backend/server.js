@@ -1,10 +1,9 @@
-import dotenv from "dotenv";
-dotenv.config();
+require('dotenv').config();
 
-import express from "express";
-import Razorpay from "razorpay";
-import crypto from "crypto";
-import cors from "cors";
+const express = require("express");
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+const cors = require("cors");
 
 const app = express();
 
@@ -15,19 +14,19 @@ app.use(cors({
 }));
 
 app.use(express.json());
-import Razorpay from "razorpay";
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
+
 // CREATE ORDER
 app.post("/create-order", async (req, res) => {
   try {
-console.log("REQ BODY:", req.body);
+    console.log("REQ BODY:", req.body);
 
     const order = await razorpay.orders.create({
-       amount: Number(req.body.amount),
+      amount: Number(req.body.amount),
       currency: "INR",
     });
 
