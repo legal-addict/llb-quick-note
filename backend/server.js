@@ -23,7 +23,7 @@ console.log("RAZORPAY_KEY_ID:", process.env.RAZORPAY_KEY_ID ? "FOUND" : "MISSING
 console.log("RAZORPAY_KEY_SECRET:", process.env.RAZORPAY_KEY_SECRET ? "FOUND" : "MISSING");
 
 // CREATE ORDER
-app.post("https://backend-kxr2.onrender.com/create-order", async (req, res) => {
+app.post("/create-order", async (req, res) => {
   try {
     console.log("REQ BODY:", req.body);
 
@@ -43,7 +43,7 @@ app.post("https://backend-kxr2.onrender.com/create-order", async (req, res) => {
 });
 
 // VERIFY PAYMENT
-app.post("https://backend-kxr2.onrender.com/verify-payment", (req, res) => {
+app.post("/verify-payment", (req, res) => {
   try {
     const {
       razorpay_order_id,
