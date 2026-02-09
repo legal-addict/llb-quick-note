@@ -23,8 +23,8 @@ console.log("RAZORPAY_KEY_ID:", process.env.RAZORPAY_KEY_ID ? "FOUND" : "MISSING
 console.log("RAZORPAY_KEY_SECRET:", process.env.RAZORPAY_KEY_SECRET ? "FOUND" : "MISSING");
 
 // CREATE ORDER
-app.post(https://backend-kxr2.onrender.com/create-order
-"/create-order/", async (req, res) => {
+app.post("https://backend-kxr2.onrender.com/create-order
+/", async (req, res) => {
   try {
     console.log("REQ BODY:", req.body);
 
