@@ -33,7 +33,11 @@ async function buyNote(noteName, price) {
     const username = prompt("Enter your name") || "User";
 
     // ✅ Create order
-    const orderRes = await fetch("https://backend-kxr2.onrender.com/create-order/" , {
+app.get("/", (req, res) => {
+  res.status(200).send("Backend alive");
+});
+
+    const orderRes = await fetch("https://backend-kxr2.onrender.com/create-order" , {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: 500 * 100 })
@@ -87,6 +91,7 @@ const rzp = new Razorpay(options);
 </script>
 </body>
 </html>
+
 
 
 
