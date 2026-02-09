@@ -7,6 +7,7 @@ const cors = require("cors");
 
 const app = express();
 
+
 app.use(cors({
   origin: "https://legal-addict.github.io",
   methods: ["GET", "POST", "OPTIONS"],
@@ -14,6 +15,11 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.options("*", cors());
+
+app.get("/", (req, res) => {
+  res.send("Backend running");
+});
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -23,8 +29,7 @@ console.log("RAZORPAY_KEY_ID:", process.env.RAZORPAY_KEY_ID ? "FOUND" : "MISSING
 console.log("RAZORPAY_KEY_SECRET:", process.env.RAZORPAY_KEY_SECRET ? "FOUND" : "MISSING");
 
 // CREATE ORDER
-app.post("https://backend-kxr2.onrender.com/create-order
-/", async (req, res) => {
+app.post("/create-order", async (req, res) => {
   try {
     console.log("REQ BODY:", req.body);
 
