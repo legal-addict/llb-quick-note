@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const express = require("express");
 const Razorpay = require("razorpay");
@@ -6,7 +6,6 @@ const crypto = require("crypto");
 const cors = require("cors");
 
 const app = express();
-
 
 app.use(cors({
   origin: "https://legal-addict.github.io",
@@ -25,25 +24,29 @@ const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
-console.log("RAZORPAY_KEY_ID:", process.env.RAZORPAY_KEY_ID ? "FOUND" : "MISSING");
-console.log("RAZORPAY_KEY_SECRET:", process.env.RAZORPAY_KEY_SECRET ? "FOUND" : "MISSING");
 
 // CREATE ORDER
 app.post("/create-order", async (req, res) => {
   try {
-    console.log("REQ BODY:", req.body);
+    const amount = Number(req.body.amount);
+
+    if (!amount || amount < 100) {
+      return res.status(400).json({ error: "Invalid amount" });
+    }
 
     const order = await razorpay.orders.create({
-      amount: Number(req.body.amount),
+      amount,
       currency: "INR",
+      receipt: "receipt_" + Date.now(),
     });
 
     res.json({
       key: process.env.RAZORPAY_KEY_ID,
       order,
     });
+
   } catch (err) {
-    console.error(err);
+    console.error("Create order error:", err);
     res.status(500).json({ error: "Order creation failed" });
   }
 });
@@ -73,8 +76,9 @@ app.post("/verify-payment", (req, res) => {
     } else {
       res.status(400).json({ success: false });
     }
+
   } catch (err) {
-    console.error(err);
+    console.error("Verify error:", err);
     res.status(500).json({ success: false });
   }
 });
