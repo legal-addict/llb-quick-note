@@ -36,7 +36,7 @@ async function buyNote(noteName, price) {
     const orderRes = await fetch("https://backend-kxr2.onrender.com/create-order" , {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount:price * 100})
+      body: JSON.stringify({ amount:price * 1000})
     });
 
 if (!orderRes.ok) throw new Error("Order creation failed");
@@ -87,6 +87,7 @@ const rzp = new Razorpay(options);
 </script>
 </body>
 </html>
+
 
 
 
