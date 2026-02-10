@@ -33,7 +33,13 @@ app.post("/create-order", async (req, res) => {
     if (!amount || amount < 100) {
       return res.status(400).json({ error: "Invalid amount" });
     }
+console.log("RAZORPAY_KEY_ID loaded:", process.env.RAZORPAY_KEY_ID ? "YES" : "NO");
+console.log("RAZORPAY_KEY_SECRET loaded:", process.env.RAZORPAY_KEY_SECRET ? "YES" : "NO");
 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
+});
     const order = await razorpay.orders.create({
       amount,
       currency: "INR",
