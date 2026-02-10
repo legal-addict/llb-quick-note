@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
     const orderRes = await fetch("https://backend-kxr2.onrender.com/create-order" , {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 500 * 100 })
+      body: JSON.stringify({ amount: 500})
     });
 
 if (!orderRes.ok) throw new Error("Order creation failed");
@@ -91,6 +91,7 @@ const rzp = new Razorpay(options);
 </script>
 </body>
 </html>
+
 
 
 
