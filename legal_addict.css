@@ -2,24 +2,14 @@
     header{
       text-align: center;
       font-size: 60px;
-      background-image: url(legal\ addict.jpg) ;
-      background-position: left top;
-      background-size: 110px;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
-    
-    p.a{
-      font-size: 20px;
-      text-align: center;
     }
     body{
       background-color: #cfeeee;
     }
-    P.b{
+    P{
       padding-left: 200px;
     }
-  #A{
+  button{
     padding: 10px 20px;
     border: 2px solid gray;
     background-color: #b3f0e6;
@@ -34,20 +24,15 @@
     header{
       text-align: center;
       font-size: 30px;
-      background-image: url(legal\ addict.jpg) ;
-      background-position: left top;
-      background-size: 50px;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
     }
     body{
       background-color: #cfeeee;
     }
-    p.b{
+    p{
       font-size: 10px;
       padding-left: 55px;
     }
-  #A{
+  button{
     padding: 2px 4px;
     border: 0.5px solid gray;
     background-color: #b3f0e6;
@@ -61,5 +46,6 @@
   }
 
  
+
 
 
