@@ -26,6 +26,7 @@ const razorpay = new Razorpay({
 });
 
 // CREATE ORDER
+console.log("Using Razorpay Key ID:", process.env.RAZORPAY_KEY_ID);
 app.post("/create-order", async (req, res) => {
   try {
     const amount = Number(req.body.amount);
