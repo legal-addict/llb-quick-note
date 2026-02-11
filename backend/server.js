@@ -7,6 +7,9 @@ const cors = require("cors");
 
 const app = express();
 
+console.log("KEY ID:", process.env.RAZORPAY_KEY_ID);
+console.log("KEY SECRET:", process.env.RAZORPAY_KEY_SECRET);
+
 app.use(cors({
   origin: "https://legal-addict.github.io",
   methods: ["GET", "POST", "OPTIONS"],
