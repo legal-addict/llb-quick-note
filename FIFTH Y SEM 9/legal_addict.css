@@ -1,8 +1,8 @@
  
     header{
       text-align: center;
-      font-size: 60px;}
-    
+      font-size: 60px;
+    }
     body{
       background-color: #cfeeee;
     }
@@ -23,13 +23,14 @@
   @media only screen and (max-width :455px){
     header{
       text-align: center;
-      font-size: 30px;}
+      font-size: 30px;
+    }
     body{
       background-color: #cfeeee;
     }
-    P{
-      padding-left: 30px;
-      font-size: 8px;
+    p{
+      font-size: 10px;
+      padding-left: 55px;
     }
   button{
     padding: 2px 4px;
@@ -41,5 +42,5 @@
     gap: 3px;
     margin-left: 60px;
     margin-top:10px;
-  }}
- 
+  }
+  }
