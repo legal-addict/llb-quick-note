@@ -3,84 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LLB Curriculum Overview</title>
-  <link rel="stylesheet" href="legal_addict.css">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
+  <title>LLB Curriculum Overview </title>
+  <link rel="stylesheet" href="legaladictfolder.css">
+<link rel="stylesheet" href="legal_addict.css">
 </head>
 <body>
-  <header>
+  <HEADer>
     UNIVERSITY OF MUMBAI SYLLABUS (WITH QUICK NOTE)
-  </header>
+  </HEADer>
 
   <p>
     Quick notes  for LL.B. (3 year) Sem 5 and BLS LL.B. (5 year) sem 9
   </p>
   
-  <button onclick="buyNote('LABOUR LAW AND INDUSTRIAL RELATIONS- I', 100)"> CIVIL PROCEDURE CODE 1908 AND LIMITATION ACT 1963  </button><br>
-  <button onclick="buyNote('LABOUR LAW AND INDUSTRIAL RELATIONS- I', 100)">CRIMINAL PROCEDURE CODE 1973, THE JUVENILE JUSTICE (CARE AND PROTECTION OF CHILDREN) ACT, 2015 AND THE PROTECTION OF CHIDLREN FROM SEXUAL OFFENCES (POCSO) ACT, 2012.  </button><br>
-  <button onclick="buyNote('LABOUR LAW AND INDUSTRIAL RELATIONS- I', 100)">  LABOUR LAW AND INDUSTRIAL RELATIONS-II  </button><br>
-  <button onclick="buyNote('LABOUR LAW AND INDUSTRIAL RELATIONS- I', 100)" > PUBLIC INTERNATIONAL LAW  </button><br>
-  <button onclick="buyNote('LABOUR LAW AND INDUSTRIAL RELATIONS- I', 100)"> PRACTICAL TRAINING - III Moot Court Exercise and Internship   </button><br>
-    <script>
+  <button> CIVIL PROCEDURE CODE 1908 AND LIMITATION ACT 1963  </button><br>
+  <button>CRIMINAL PROCEDURE CODE 1973, THE JUVENILE JUSTICE (CARE AND PROTECTION OF CHILDREN) ACT, 2015 AND THE PROTECTION OF CHIDLREN FROM SEXUAL OFFENCES (POCSO) ACT, 2012.  </button><br>
+  <button>  LABOUR LAW AND INDUSTRIAL RELATIONS-II  </button><br>
+  <button > PUBLIC INTERNATIONAL LAW  </button><br>
+  <button> PRACTICAL TRAINING - III Moot Court Exercise and Internship   </button><br>
+    
 
-async function buyNote(noteName, price) {
-  try {
-    const username = prompt("Enter your name") || "User";
 
-    // ✅ Create order
-    const orderRes = await fetch("https://backend-kxr2.onrender.com/create-order" , {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({amount: price * 100 })
-    });
-
-if (!orderRes.ok) throw new Error("Order creation failed");
-const orderData = await orderRes.json();
-
-    const options = {
-  key: orderData.key,
-  amount: orderData.order.amount,
-  currency: "INR",
-  order_id: orderData.order.id,
-  name: "Legal Addict",
-  description: noteName,
-  handler: async function (response) {
-        // verify payment
-        const verifyRes = await fetch("https://backend-kxr2.onrender.com/verify-payment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            username,
-            noteName
-          })
-        });
-
-        const verifyData = await verifyRes.json();
-
-        if (verifyData.success) {
-          alert("Payment successful! You can load your note now.");
-        } else {
-          alert("Payment verification failed.");
-        }
-      },
-
-      modal: {
-        ondismiss: () => alert("Payment cancelled")
-      }
-    };
-const rzp = new Razorpay(options);
-    rzp.open();
-
-  } catch (error) {
-    console.error("ERROR:", error);
-    alert("Payment failed");
-  }
-}
-</script>
 </body>
 </html>
