@@ -77,7 +77,7 @@ app.post("/verify-payment", (req, res) => {
     if (expectedSignature === razorpay_signature) {
       res.json({
         success: true,
-        url: `/notes/${encodeURIComponent(noteName)}.pdf`,
+        url: `/notes/${encodeURIComponent(noteName)}.html`,
       });
     } else {
       res.status(400).json({ success: false });
