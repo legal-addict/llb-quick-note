@@ -36,8 +36,8 @@ const orderData = await orderRes.json();
         const verifyData = await verifyRes.json();
 
         if (verifyData.success) {
-          alert("Payment successful! You can load your note now.");
-        } else {
+  window.location.href = verifyData.url;
+} else {
           alert("Payment verification failed.");
         }
       },
